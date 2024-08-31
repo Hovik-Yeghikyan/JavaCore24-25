@@ -15,6 +15,8 @@ public class StackTest {
         myStack.push(168);
         myStack.push(98);
         myStack.push(44);
+        myStack.push(12);
+        myStack.push(33);
 
 
 

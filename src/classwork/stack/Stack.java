@@ -2,27 +2,36 @@ package classwork.stack;
 
 public class Stack {
 
-    int[] stack = new int[10];
-    int tos;
+  public  int[] stack = new int[10];
+  public   int tos;
 
-    Stack() {
+    public Stack() {
         tos = -1;
     }
 
-    void push(int item) {
-        if (tos == 9) {
-            System.out.println("Stack is full!");
-        } else {
+ public  void push(int item) {
+        if (tos == stack.length-1) {
+            extend();
+       }
             stack[++tos] = item;
-        }
+
     }
 
-    int pop() {
+  public   int pop() {
         if (tos < 0) {
-            System.out.println("Stack is empty!");
             return 0;
         } else {
             return stack[tos--];
         }
+    }
+
+    private void extend() {
+        int[] newArray = new int[stack.length + 10];
+        System.arraycopy(stack, 0, newArray, 0, stack.length);
+        stack = newArray;
+    }
+
+    public int getTos() {
+        return tos;
     }
 }
