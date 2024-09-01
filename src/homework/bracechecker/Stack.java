@@ -1,15 +1,15 @@
-package classwork.stack;
+package homework.bracechecker;
 
 public class Stack {
 
-  public  int[] stack = new int[10];
+  public  Brace[] stack = new Brace[10];
   public   int tos;
 
     public Stack() {
         tos = -1;
     }
 
- public  void push(int item) {
+ public  void push(Brace item) {
         if (tos == stack.length-1) {
             extend();
        }
@@ -17,21 +17,21 @@ public class Stack {
 
     }
 
-  public   int pop() {
+  public   Brace pop() {
         if (tos < 0) {
-            return 0;
+            return null;
         } else {
             return stack[tos--];
         }
     }
 
     private void extend() {
-        int[] newArray = new int[stack.length + 10];
+        Brace[] newArray = new Brace[stack.length + 10];
         System.arraycopy(stack, 0, newArray, 0, stack.length);
         stack = newArray;
     }
 
-    public int getTos() {
-        return tos;
+  public boolean isEmpty(){
+    return tos == -1;
     }
 }
