@@ -45,12 +45,23 @@ public class BookStorage {
     }
 
     public void deleteBookById(String id) {
+        int index = getBookIndex(id);
+        if (index != -1) {
+            for (int i = index + 1; i < size; i++) {
+                books[i - 1] = books[i];
+            }
+            size--;
+        }
+
+    }
+
+    private int getBookIndex(String id) {
         for (int i = 0; i < size; i++) {
             if (books[i].getId().equals(id)) {
-                books[i] = books[i + 1];
+                return i;
             }
         }
-        size--;
+        return -1;
     }
 
     public Book[] searchByPrice(double minPrice, double maxPrice) {
