@@ -2,22 +2,16 @@ package classwork.bookStorage;
 
 import java.util.Scanner;
 
-public class Library {
+public class Library implements LibraryCommands {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final BookStorage bookstorage = new BookStorage();
-    private static final String EXIT = "0";
-    private static final String ADD_BOOK = "1";
-    private static final String PRINT_ALL_BOOKS = "2";
-    private static final String SEARCH_BOOK_BY_TITLE = "3";
-    private static final String UPDATE_BOOK = "4";
-    private static final String DELETE_BOOK = "5";
-    private static final String SEARCH_BY_PRICE = "6";
+
 
     public static void main(String[] args) {
         boolean isRun = true;
         while (isRun) {
-            printAllCommands();
+            LibraryCommands.printAllCommands();
             String command = scanner.nextLine();
             switch (command) {
                 case EXIT:
@@ -62,15 +56,7 @@ public class Library {
     }
 
 
-    private static void printAllCommands() {
-        System.out.println("Please Enter " + EXIT + " for EXIT");
-        System.out.println("Please Enter " + ADD_BOOK + " for ADD BOOK");
-        System.out.println("Please Enter " + PRINT_ALL_BOOKS + " for PRINT ALL BOOKS");
-        System.out.println("Please Enter " + SEARCH_BOOK_BY_TITLE + " for SEARCH BOOK BY TITLE");
-        System.out.println("Please Enter " + UPDATE_BOOK + " for UPDATE BOOK");
-        System.out.println("Please Enter " + DELETE_BOOK + " for DELETE BOOK");
-        System.out.println("Please Enter " + SEARCH_BY_PRICE + " for SEARCH BOOKS BY PRICE");
-    }
+
 
     private static void addBook() {
         System.out.println("Please enter id");

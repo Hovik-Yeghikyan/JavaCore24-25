@@ -3,7 +3,6 @@ package homework.employee;
 import java.util.Objects;
 
 public class Employee {
-
     private String name;
     private String surname;
     private String employeeID;

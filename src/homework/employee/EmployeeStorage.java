@@ -13,6 +13,8 @@ public class EmployeeStorage {
     }
 
 
+
+
     public void printAllEmployees() {
         for (int i = 0; i < size; i++) {
             System.out.println(employees[i]);
