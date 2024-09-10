@@ -1,4 +1,7 @@
-package classwork.bookStorage;
+package classwork.bookStorage.storage;
+
+import classwork.bookStorage.model.Author;
+import classwork.bookStorage.model.Book;
 
 public class BookStorage {
 
@@ -64,16 +67,22 @@ public class BookStorage {
         return -1;
     }
 
-    public Book[] searchByPrice(double minPrice, double maxPrice) {
-        Book[] book = new Book[size];
-        int index = 0;
+    public void searchByPrice(double minPrice, double maxPrice) {
+        minPrice = Math.min(minPrice, maxPrice);
+        maxPrice = Math.max(maxPrice, minPrice);
         for (int i = 0; i < size; i++) {
             if (books[i].getPrice() >= minPrice && books[i].getPrice() <= maxPrice) {
-                book[index] = books[i];
-                index++;
+                System.out.println(books[i]);
             }
         }
-        return book;
+    }
+
+    public void searchByAuthor(Author author) {
+        for (int i = 0; i < size; i++) {
+            if (books[i].getAuthor().equals(author)) {
+                System.out.println(books[i]);
+            }
+        }
     }
 }
 

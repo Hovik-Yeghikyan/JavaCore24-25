@@ -1,4 +1,4 @@
-package homework.employee;
+package homework.employee.model;
 
 import java.util.Objects;
 
@@ -7,13 +7,13 @@ public class Employee {
     private String surname;
     private String employeeID;
     private double salary;
-    private String company;
+    private Company company;
     private String position;
 
     public Employee() {
     }
 
-    public Employee(String name, String surname, String employeeID, double salary, String company, String position) {
+    public Employee(String name, String surname, String employeeID, double salary, Company company, String position) {
         this.name = name;
         this.surname = surname;
         this.employeeID = employeeID;
@@ -54,11 +54,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getCompany() {
+    public Company getCompany() {
         return company;
     }
 
-    public void setCompany(String company) {
+    public void setCompany(Company company) {
         this.company = company;
     }
 
@@ -73,14 +73,31 @@ public class Employee {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return Double.compare(salary, employee.salary) == 0 && Objects.equals(name, employee.name) && Objects.equals(surname, employee.surname) && Objects.equals(employeeID, employee.employeeID) && Objects.equals(company, employee.company) && Objects.equals(position, employee.position);
+        if (!(o instanceof Employee employee)) return false;
+
+        if (Double.compare(getSalary(), employee.getSalary()) != 0) return false;
+        if (getName() != null ? !getName().equals(employee.getName()) : employee.getName() != null) return false;
+        if (getSurname() != null ? !getSurname().equals(employee.getSurname()) : employee.getSurname() != null)
+            return false;
+        if (getEmployeeID() != null ? !getEmployeeID().equals(employee.getEmployeeID()) : employee.getEmployeeID() != null)
+            return false;
+        if (getCompany() != null ? !getCompany().equals(employee.getCompany()) : employee.getCompany() != null)
+            return false;
+        return getPosition() != null ? getPosition().equals(employee.getPosition()) : employee.getPosition() == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, surname, employeeID, salary, company, position);
+        int result;
+        long temp;
+        result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getSurname() != null ? getSurname().hashCode() : 0);
+        result = 31 * result + (getEmployeeID() != null ? getEmployeeID().hashCode() : 0);
+        temp = Double.doubleToLongBits(getSalary());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (getCompany() != null ? getCompany().hashCode() : 0);
+        result = 31 * result + (getPosition() != null ? getPosition().hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -90,7 +107,7 @@ public class Employee {
                 ", surname='" + surname + '\'' +
                 ", employeeID='" + employeeID + '\'' +
                 ", salary=" + salary +
-                ", company='" + company + '\'' +
+                ", company=" + company +
                 ", position='" + position + '\'' +
                 '}';
     }
