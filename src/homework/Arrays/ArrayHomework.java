@@ -1,4 +1,4 @@
-package homework;
+package homework.Arrays;
 
 public class ArrayHomework {
     private static final int[] numbers = {24, 32, 24, 78, 6, 145, 256, 1266, 1099, 145};

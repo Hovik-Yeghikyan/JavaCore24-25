@@ -1,22 +1,26 @@
 package classwork.bookStorage.model;
 
+import classwork.bookStorage.util.DateUtil;
+
+import java.util.Date;
+
 public class Author {
 
     private String id;
     private  String name;
     private  String surname;
     private  String phone;
-    private  int age;
+    private Date dateOfBirthday;
 
     public Author() {
     }
 
-    public Author(String id, String name, String surname, String phone, int age) {
+    public Author(String id, String name, String surname, String phone, Date dateOfBirthday) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
-        this.age = age;
+        this.dateOfBirthday = dateOfBirthday;
     }
 
     public String getId() {
@@ -51,12 +55,12 @@ public class Author {
         this.phone = phone;
     }
 
-    public int getAge() {
-        return age;
+    public Date getDateOfBirthday() {
+        return dateOfBirthday;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setDateOfBirthday(Date dateOfBirthday) {
+        this.dateOfBirthday = dateOfBirthday;
     }
 
     @Override
@@ -64,12 +68,12 @@ public class Author {
         if (this == o) return true;
         if (!(o instanceof Author author)) return false;
 
-        if (getAge() != author.getAge()) return false;
         if (getId() != null ? !getId().equals(author.getId()) : author.getId() != null) return false;
         if (getName() != null ? !getName().equals(author.getName()) : author.getName() != null) return false;
         if (getSurname() != null ? !getSurname().equals(author.getSurname()) : author.getSurname() != null)
             return false;
-        return getPhone() != null ? getPhone().equals(author.getPhone()) : author.getPhone() == null;
+        if (getPhone() != null ? !getPhone().equals(author.getPhone()) : author.getPhone() != null) return false;
+        return getDateOfBirthday() != null ? getDateOfBirthday().equals(author.getDateOfBirthday()) : author.getDateOfBirthday() == null;
     }
 
     @Override
@@ -78,7 +82,7 @@ public class Author {
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + (getSurname() != null ? getSurname().hashCode() : 0);
         result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
-        result = 31 * result + getAge();
+        result = 31 * result + (getDateOfBirthday() != null ? getDateOfBirthday().hashCode() : 0);
         return result;
     }
 
@@ -89,7 +93,7 @@ public class Author {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", phone='" + phone + '\'' +
-                ", age=" + age +
+                ", dateOfBirthday=" + DateUtil.fromDateToString(dateOfBirthday) +
                 '}';
     }
 }

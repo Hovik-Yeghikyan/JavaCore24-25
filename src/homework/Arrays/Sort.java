@@ -1,4 +1,4 @@
-package homework;
+package homework.Arrays;
 
 public class Sort {
 

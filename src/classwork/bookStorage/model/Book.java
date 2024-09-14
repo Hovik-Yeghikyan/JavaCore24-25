@@ -1,5 +1,8 @@
 package classwork.bookStorage.model;
 
+import classwork.bookStorage.util.DateUtil;
+
+import java.util.Date;
 import java.util.Objects;
 
 public class Book {
@@ -9,17 +12,19 @@ public class Book {
     private Author author;
     private double price;
     private int quantity;
+    private Date createdAt;
 
 
     public Book() {
     }
 
-    public Book(String id, String title, Author author, double price, int quantity) {
+    public Book(String id, String title, Author author, double price, int quantity, Date createdAt) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.price = price;
         this.quantity = quantity;
+        this.createdAt = createdAt;
     }
 
     public String getId() {
@@ -62,6 +67,14 @@ public class Book {
         this.quantity = quantity;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,7 +84,8 @@ public class Book {
         if (getQuantity() != book.getQuantity()) return false;
         if (getId() != null ? !getId().equals(book.getId()) : book.getId() != null) return false;
         if (getTitle() != null ? !getTitle().equals(book.getTitle()) : book.getTitle() != null) return false;
-        return getAuthor() != null ? getAuthor().equals(book.getAuthor()) : book.getAuthor() == null;
+        if (getAuthor() != null ? !getAuthor().equals(book.getAuthor()) : book.getAuthor() != null) return false;
+        return getCreatedAt() != null ? getCreatedAt().equals(book.getCreatedAt()) : book.getCreatedAt() == null;
     }
 
     @Override
@@ -84,6 +98,7 @@ public class Book {
         temp = Double.doubleToLongBits(getPrice());
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + getQuantity();
+        result = 31 * result + (getCreatedAt() != null ? getCreatedAt().hashCode() : 0);
         return result;
     }
 
@@ -92,9 +107,10 @@ public class Book {
         return "Book{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
-                ", authorName='" + author + '\'' +
+                ", author=" + author +
                 ", price=" + price +
                 ", quantity=" + quantity +
+                ", createdAt=" + DateUtil.fromDateToString(createdAt)  +
                 '}';
     }
 }

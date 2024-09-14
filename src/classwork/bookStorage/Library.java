@@ -4,7 +4,10 @@ import classwork.bookStorage.model.Author;
 import classwork.bookStorage.model.Book;
 import classwork.bookStorage.storage.AuthorStorage;
 import classwork.bookStorage.storage.BookStorage;
+import classwork.bookStorage.util.DateUtil;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Library implements LibraryCommands {
@@ -77,20 +80,24 @@ public class Library implements LibraryCommands {
     }
 
     private static void addAuthor() {
-        System.out.println("Please input ID, name, surname, phone, age");
+        System.out.println("Please input ID, name, surname, phone, dateOfBirthday(01-10-2000)");
         String authorDataStr = scanner.nextLine();
         String[] authorDataArr = authorDataStr.split(",");
         if (authorDataArr.length == 5) {
             String id = authorDataArr[0];
             if (authorStorage.getAuthorById(id) == null) {
+                try {
                 Author author = new Author();
                 author.setId(id);
                 author.setName(authorDataArr[1]);
                 author.setSurname(authorDataArr[2]);
                 author.setPhone(authorDataArr[3]);
-                author.setAge(Integer.parseInt(authorDataArr[4]));
+                author.setDateOfBirthday(DateUtil.fromStringToDate(authorDataArr[4]));
                 authorStorage.add(author);
                 System.out.println("Author added!");
+                } catch (ParseException e) {
+                    System.out.println("Date of BirthDay is incorrect");;
+                }
             } else {
                 System.out.println("Author with id " + id + " is already exists!");
             }
@@ -127,7 +134,7 @@ public class Library implements LibraryCommands {
             double price = Double.parseDouble(scanner.nextLine());
             System.out.println("Please enter quantity");
             int quantity = Integer.parseInt(scanner.nextLine());
-            Book book = new Book(id, title, author, price, quantity);
+            Book book = new Book(id, title, author, price, quantity,new Date());
             Book bookById = bookstorage.getBookById(id);
             if (bookById == null) {
                 bookstorage.add(book);
