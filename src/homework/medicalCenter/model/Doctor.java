@@ -1,15 +1,18 @@
 package homework.medicalCenter.model;
 
+import homework.medicalCenter.type.Profession;
+
 public class Doctor extends Person {
 
     private String email;
-    private String profession;
+    private Profession profession;
 
     public Doctor() {
     }
 
 
-    public Doctor(String id, String name, String surname, String phoneNumber, String email, String profession) {
+
+    public Doctor(String id, String name, String surname, String phoneNumber, String email, Profession profession) {
         super(id, name, surname, phoneNumber);
         this.email = email;
         this.profession = profession;
@@ -23,11 +26,11 @@ public class Doctor extends Person {
         this.email = email;
     }
 
-    public String getProfession() {
+    public Profession getProfession() {
         return profession;
     }
 
-    public void setProfession(String profession) {
+    public void setProfession(Profession profession) {
         this.profession = profession;
     }
 
@@ -38,7 +41,7 @@ public class Doctor extends Person {
         if (!super.equals(o)) return false;
 
         if (getEmail() != null ? !getEmail().equals(doctor.getEmail()) : doctor.getEmail() != null) return false;
-        return getProfession() != null ? getProfession().equals(doctor.getProfession()) : doctor.getProfession() == null;
+        return getProfession() == doctor.getProfession();
     }
 
     @Override
@@ -53,7 +56,7 @@ public class Doctor extends Person {
     public String toString() {
         return "Doctor{" +
                 "email='" + email + '\'' +
-                ", profession='" + profession + '\'' +
+                ", profession=" + profession +
                 "} " + super.toString();
     }
 }

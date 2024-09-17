@@ -1,8 +1,10 @@
 package homework.medicalCenter;
 
+import homework.medicalCenter.exception.TimeNotAllowedException;
 import homework.medicalCenter.model.Doctor;
 import homework.medicalCenter.model.Patient;
 import homework.medicalCenter.storage.PersonStorage;
+import homework.medicalCenter.type.Profession;
 import homework.medicalCenter.util.DateUtil;
 
 import java.text.ParseException;
@@ -76,16 +78,22 @@ public class MedicalMain implements Commands {
                     String surname = SCANNER.nextLine();
                     System.out.println("Please input patient phone number");
                     String phone = SCANNER.nextLine();
-                    System.out.println("Please input  register date and time (01-10-2000 20:00)");
-                    String registerDateTime = SCANNER.nextLine();
-                    Patient patient = new Patient(id, name, surname, phone, doctorByID, DateUtil.formatStringToDate(registerDateTime));
-                    if (patient.getId().isEmpty() || patient.getName().isEmpty() ||
-                            patient.getSurname().isEmpty() || patient.getPhoneNumber().isEmpty()) {
-                        System.out.println("You can't put empty fields");
-                        return;
+                    try {
+                        System.out.println("Please input  register date and time (01-10-2000 20:00)");
+                        String registerDateTime = SCANNER.nextLine();
+                        PERSON_STORAGE.checkRegisterDate(doctorId,registerDateTime);
+                        Patient patient = new Patient(id, name, surname, phone, doctorByID, DateUtil.formatStringToDate(registerDateTime));
+                        if (patient.getId().isEmpty() || patient.getName().isEmpty() ||
+                                patient.getSurname().isEmpty() || patient.getPhoneNumber().isEmpty()) {
+                            System.out.println("You can't put empty fields");
+                            return;
+                        }
+                        PERSON_STORAGE.add(patient);
+                        System.out.println("Patient added!");
+                    }catch (TimeNotAllowedException e){
+                        System.out.println("Please select another time");
                     }
-                    PERSON_STORAGE.add(patient);
-                    System.out.println("Patient added!");
+
                 } catch (ParseException e) {
                     System.out.println("Incorrect register date/time");
                 }
@@ -112,17 +120,23 @@ public class MedicalMain implements Commands {
             String phone = SCANNER.nextLine();
             System.out.println("Please input doctor email");
             String email = SCANNER.nextLine();
-            System.out.println("Please input doctor profession");
-            String profession = SCANNER.nextLine();
-            Doctor doctor = new Doctor(id, name, surname, phone, email, profession);
-            if (doctor.getId().isEmpty() || doctor.getName().isEmpty() ||
-                    doctor.getSurname().isEmpty() || doctor.getPhoneNumber().isEmpty() ||
-                    doctor.getEmail().isEmpty() || doctor.getProfession().isEmpty()) {
-                System.out.println("You can't put empty fields");
-                return;
+            System.out.println("Please input doctor profession  GENERAL_PRACTITIONER/PEDIATRICIAN/CARDIOLOGIST/NEUROLOGIST/DERMATOLOGIST");
+            String professionStr = SCANNER.nextLine().toUpperCase();
+            Profession profession = PERSON_STORAGE.getDoctorsProfessionType(professionStr);
+            if (profession != null) {
+                Doctor doctor = new Doctor(id, name, surname, phone, email, profession);
+                if (doctor.getId().isEmpty() || doctor.getName().isEmpty() ||
+                        doctor.getSurname().isEmpty() || doctor.getPhoneNumber().isEmpty() ||
+                        doctor.getEmail().isEmpty()) {
+                    System.out.println("You can't put empty fields");
+                    return;
+                }
+                PERSON_STORAGE.add(doctor);
+                System.out.println("Doctor added!");
+            } else {
+                System.out.println("Selected wrong profession!!! Try again!");
+
             }
-            PERSON_STORAGE.add(doctor);
-            System.out.println("Doctor added!");
         } else {
             System.out.println("Doctor with id " + id + " already exists!");
         }
@@ -154,10 +168,14 @@ public class MedicalMain implements Commands {
             if (email != null && !email.isEmpty()) {
                 doctorByID.setEmail(email);
             }
-            System.out.println("Please input doctors new profession");
-            String profession = SCANNER.nextLine();
-            if (profession != null && !profession.isEmpty()) {
+            System.out.println("Please input doctors new profession  GENERAL_PRACTITIONER/PEDIATRICIAN/CARDIOLOGIST/NEUROLOGIST/DERMATOLOGIST");
+            String professionStr = SCANNER.nextLine().toUpperCase();
+            Profession profession = PERSON_STORAGE.getDoctorsProfessionType(professionStr);
+            if (profession != null) {
                 doctorByID.setProfession(profession);
+            } else {
+                System.out.println("Incorrect profession! try again!");
+                return;
             }
             System.out.println("Doctor updated!");
 
@@ -194,8 +212,8 @@ public class MedicalMain implements Commands {
 
     private static void searchDoctorByProfession() {
         System.out.println("Please input doctors profession");
-        String profession = SCANNER.nextLine();
-        PERSON_STORAGE.searchDoctorByProfession(profession);
+        String professionStr = SCANNER.nextLine().toUpperCase();
+        PERSON_STORAGE.searchDoctorByProfession(professionStr);
 
 
     }

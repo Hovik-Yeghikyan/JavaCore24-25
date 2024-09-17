@@ -1,8 +1,14 @@
 package homework.medicalCenter.storage;
 
+import homework.medicalCenter.exception.TimeNotAllowedException;
 import homework.medicalCenter.model.Doctor;
 import homework.medicalCenter.model.Patient;
 import homework.medicalCenter.model.Person;
+import homework.medicalCenter.type.Profession;
+import homework.medicalCenter.util.DateUtil;
+
+import java.text.ParseException;
+import java.util.Date;
 
 public class PersonStorage {
     private Person[] people = new Person[10];
@@ -43,8 +49,39 @@ public class PersonStorage {
     public void searchDoctorByProfession(String profession) {
         for (int i = 0; i < size; i++) {
             if (people[i] instanceof Doctor doctor &&
-                    doctor.getProfession().equals(profession)) {
+                    doctor.getProfession().name().equals(profession)) {
                 System.out.println(doctor);
+            }
+        }
+    }
+
+    public Profession getDoctorsProfessionType(String profession) {
+        if (profession.equals(Profession.GENERAL_PRACTITIONER.name()) ||
+                profession.equals(Profession.PEDIATRICIAN.name()) ||
+                profession.equals(Profession.CARDIOLOGIST.name()) ||
+                profession.equals(Profession.DERMATOLOGIST.name()) ||
+                profession.equals(Profession.NEUROLOGIST.name())) {
+            return Profession.valueOf(profession);
+
+        }
+        return null;
+    }
+
+    public void checkRegisterDate(String doctorId, String registerDate) throws ParseException, TimeNotAllowedException {
+        for (int i = 0; i < size; i++) {
+            if (people[i] instanceof Patient patient &&
+                    patient.getDoctor().getId().equals(doctorId)) {
+                Date patDate = patient.getRegisterDate();
+                Date regDate = DateUtil.formatStringToDate(registerDate);
+                if (patDate.getDay() == regDate.getDay() && patDate.getMonth() == regDate.getMonth() &&
+                        patDate.getYear() == regDate.getYear()) {
+                    if (regDate.getHours() == patDate.getHours() && regDate.getMinutes() - patDate.getMinutes() <= 30) {
+                        throw new TimeNotAllowedException();
+                    }
+                    if (patDate.getHours() - regDate.getHours() == 1 && regDate.getMinutes() - patDate.getMinutes() >= 30) {
+                        throw new TimeNotAllowedException();
+                    }
+                }
             }
         }
     }
@@ -70,6 +107,7 @@ public class PersonStorage {
         }
         return null;
     }
+
 
     public void deleteDoctorByID(String id) {
         for (int i = 0; i < size; i++) {
