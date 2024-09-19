@@ -81,7 +81,7 @@ public class MedicalMain implements Commands {
                     try {
                         System.out.println("Please input  register date and time (01-10-2000 20:00)");
                         String registerDateTime = SCANNER.nextLine();
-                        PERSON_STORAGE.checkRegisterDate(doctorId,DateUtil.formatStringToDate(registerDateTime));
+                        PERSON_STORAGE.checkRegisterDate(doctorId, DateUtil.formatStringToDate(registerDateTime));
                         Patient patient = new Patient(id, name, surname, phone, doctorByID, DateUtil.formatStringToDate(registerDateTime));
                         if (patient.getId().isEmpty() || patient.getName().isEmpty() ||
                                 patient.getSurname().isEmpty() || patient.getPhoneNumber().isEmpty()) {
@@ -90,7 +90,7 @@ public class MedicalMain implements Commands {
                         }
                         PERSON_STORAGE.add(patient);
                         System.out.println("Patient added!");
-                    }catch (TimeNotAllowedException e){
+                    } catch (TimeNotAllowedException e) {
                         System.out.println("Please select another time");
                     }
 

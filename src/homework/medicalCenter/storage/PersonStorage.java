@@ -5,9 +5,7 @@ import homework.medicalCenter.model.Doctor;
 import homework.medicalCenter.model.Patient;
 import homework.medicalCenter.model.Person;
 import homework.medicalCenter.type.Profession;
-import homework.medicalCenter.util.DateUtil;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -89,7 +87,7 @@ public class PersonStorage {
 //        }
 //    }
 
-    public void checkRegisterDate(String doctorId,Date date) throws TimeNotAllowedException {
+    public void checkRegisterDate(String doctorId, Date date) throws TimeNotAllowedException {
         Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < size; i++) {
             if (people[i] instanceof Patient patient &&
