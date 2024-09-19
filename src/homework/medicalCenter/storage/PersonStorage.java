@@ -8,6 +8,7 @@ import homework.medicalCenter.type.Profession;
 import homework.medicalCenter.util.DateUtil;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 public class PersonStorage {
@@ -67,20 +68,41 @@ public class PersonStorage {
         return null;
     }
 
-    public void checkRegisterDate(String doctorId, String registerDate) throws ParseException, TimeNotAllowedException {
+    //function  with deprecated methods (java util)
+
+//    public void checkRegisterDate(String doctorId, String registerDate) throws ParseException, TimeNotAllowedException {
+//        for (int i = 0; i < size; i++) {
+//            if (people[i] instanceof Patient patient &&
+//                    patient.getDoctor().getId().equals(doctorId)) {
+//                Date patDate = patient.getRegisterDate();
+//                Date regDate = DateUtil.formatStringToDate(registerDate);
+//                if (patDate.getDay() == regDate.getDay() && patDate.getMonth() == regDate.getMonth() &&
+//                        patDate.getYear() == regDate.getYear()) {
+//                    if (regDate.getHours() == patDate.getHours() && regDate.getMinutes() - patDate.getMinutes() <= 30) {
+//                        throw new TimeNotAllowedException();
+//                    }
+//                    if (patDate.getHours() - regDate.getHours() == 1 && regDate.getMinutes() - patDate.getMinutes() >= 30) {
+//                        throw new TimeNotAllowedException();
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    public void checkRegisterDate(String doctorId,Date date) throws TimeNotAllowedException {
+        Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < size; i++) {
             if (people[i] instanceof Patient patient &&
                     patient.getDoctor().getId().equals(doctorId)) {
                 Date patDate = patient.getRegisterDate();
-                Date regDate = DateUtil.formatStringToDate(registerDate);
-                if (patDate.getDay() == regDate.getDay() && patDate.getMonth() == regDate.getMonth() &&
-                        patDate.getYear() == regDate.getYear()) {
-                    if (regDate.getHours() == patDate.getHours() && regDate.getMinutes() - patDate.getMinutes() <= 30) {
-                        throw new TimeNotAllowedException();
-                    }
-                    if (patDate.getHours() - regDate.getHours() == 1 && regDate.getMinutes() - patDate.getMinutes() >= 30) {
-                        throw new TimeNotAllowedException();
-                    }
+                calendar.setTime(patDate);
+                calendar.add(Calendar.MINUTE, 30);
+                Date thirtyAfter = calendar.getTime();
+                calendar.setTime(patDate);
+                calendar.add(Calendar.MINUTE, -30);
+                Date thirtyBefore = calendar.getTime();
+                if (date.after(thirtyBefore) && date.before(thirtyAfter)) {
+                    throw new TimeNotAllowedException();
                 }
             }
         }
