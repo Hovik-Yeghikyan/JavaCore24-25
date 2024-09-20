@@ -3,7 +3,6 @@ package classwork.bookStorage.model;
 import classwork.bookStorage.util.DateUtil;
 
 import java.util.Date;
-import java.util.Objects;
 
 public class Book {
 
