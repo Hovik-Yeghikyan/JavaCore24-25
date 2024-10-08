@@ -2,7 +2,9 @@ package homework.onlineStore.model;
 
 import homework.onlineStore.type.ProductType;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
 
     private String id;
     private String name;

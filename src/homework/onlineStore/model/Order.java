@@ -4,9 +4,10 @@ import homework.onlineStore.type.OrderStatus;
 import homework.onlineStore.type.PaymentMethod;
 import homework.onlineStore.util.DateUtil;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Order {
+public class Order implements Serializable {
 
     private String id;
     private User user;

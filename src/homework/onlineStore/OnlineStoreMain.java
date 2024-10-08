@@ -11,6 +11,7 @@ import homework.onlineStore.type.OrderStatus;
 import homework.onlineStore.type.PaymentMethod;
 import homework.onlineStore.type.ProductType;
 import homework.onlineStore.type.UserType;
+import homework.onlineStore.util.StorageSerializeUtil;
 import homework.onlineStore.util.UUIDUtil;
 
 import java.util.Date;
@@ -18,9 +19,9 @@ import java.util.Scanner;
 
 public class OnlineStoreMain implements Commands {
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final UserStorage USER_STORAGE = new UserStorage();
-    private static final ProductStorage PRODUCT_STORAGE = new ProductStorage();
-    private static final OrderStorage ORDER_STORAGE = new OrderStorage();
+    private static final UserStorage USER_STORAGE = StorageSerializeUtil.deserializeUserStorage();
+    private static final ProductStorage PRODUCT_STORAGE = StorageSerializeUtil.deserializeProductStorage();
+    private static final OrderStorage ORDER_STORAGE = StorageSerializeUtil.deserializeOrderStorage();
     public static User currentUser = null;
 
     public static void main(String[] args) {
@@ -183,6 +184,7 @@ public class OnlineStoreMain implements Commands {
         if (orderByID != null) {
             orderByID.setOrderStatus(OrderStatus.CANCELED);
             System.out.println("Your order is cancelled!");
+            StorageSerializeUtil.serializeOrderStorage(ORDER_STORAGE);
         } else {
             System.out.println("WRONG ORDER ID!!! TRY AGAIN!!!");
         }
@@ -252,10 +254,12 @@ public class OnlineStoreMain implements Commands {
                 int quantity = product.getStockQty() - orderByID.getQty();
                 product.setStockQty(quantity);
                 System.out.println("Order status updated!");
+                StorageSerializeUtil.serializeOrderStorage(ORDER_STORAGE);
             }
             if (orderStatus == OrderStatus.CANCELED) {
                 orderByID.setOrderStatus(orderStatus);
                 System.out.println("Order cancelled!");
+                StorageSerializeUtil.serializeOrderStorage(ORDER_STORAGE);
             } else {
                 System.out.println("WRONG STATUS!!! ONLY DELIVERED/CANCELED");
             }
@@ -273,6 +277,7 @@ public class OnlineStoreMain implements Commands {
         if (productByID != null) {
             PRODUCT_STORAGE.deleteProductById(id);
             System.out.println("Product deleted!");
+            StorageSerializeUtil.serializeProductStorage(PRODUCT_STORAGE);
         } else {
             System.out.println("WRONG PRODUCT ID!!! TRY AGAIN!!!");
         }

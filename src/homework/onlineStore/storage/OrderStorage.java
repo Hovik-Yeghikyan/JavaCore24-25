@@ -1,12 +1,14 @@
 package homework.onlineStore.storage;
 
 import homework.onlineStore.model.Order;
-import homework.onlineStore.model.Product;
 import homework.onlineStore.model.User;
 import homework.onlineStore.type.OrderStatus;
 import homework.onlineStore.type.PaymentMethod;
+import homework.onlineStore.util.StorageSerializeUtil;
 
-public class OrderStorage {
+import java.io.Serializable;
+
+public class OrderStorage implements Serializable {
 
     private Order[] orders = new Order[10];
     private int size;
@@ -17,6 +19,7 @@ public class OrderStorage {
             extend();
         }
         orders[size++] = order;
+        StorageSerializeUtil.serializeOrderStorage(this);
     }
 
 

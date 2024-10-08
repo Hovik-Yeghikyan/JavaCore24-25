@@ -2,8 +2,11 @@ package homework.onlineStore.storage;
 
 import homework.onlineStore.model.Product;
 import homework.onlineStore.type.ProductType;
+import homework.onlineStore.util.StorageSerializeUtil;
 
-public class ProductStorage {
+import java.io.Serializable;
+
+public class ProductStorage implements Serializable {
     Product[] products = new Product[10];
     private int size;
 
@@ -12,6 +15,7 @@ public class ProductStorage {
             extend();
         }
         products[size++] = product;
+        StorageSerializeUtil.serializeProductStorage(this);
     }
 
     public void printAllProducts() {
